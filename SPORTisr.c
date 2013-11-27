@@ -45,6 +45,7 @@ int isProcessing=0;
 
 float input[2] = {0.0f,0.0f};
 float output[2] = {0.0f,0.0f};
+unsigned int output_i[2] = {0,0};
 
 //If the processing takes too long, the program will be stuck in this infinite loop.
 void ProcessingTooLong()
@@ -65,13 +66,15 @@ void TalkThroughISR(int sig_int)
     
     isProcessing = 1;
     
-    input[L] = *((src_pointer[int_cntr])+L);
-    input[R] = *((src_pointer[int_cntr])+R);
+    // point to the input samples
+    input[L] = (float)(*((src_pointer[int_cntr])+L)) / (float)SCALE;
+    input[R] = (float)(*((src_pointer[int_cntr])+R)) / (float)SCALE;
     
     processBlock(input,output);
     
-    *((src_pointer[int_cntr])+L) = output[L];
-    *((src_pointer[int_cntr])+R) = output[R];
+    *((src_pointer[int_cntr])+L) = (unsigned int)(output[L] * SCALE);
+    *((src_pointer[int_cntr])+R) = (unsigned int)(output[R] * SCALE);
+	
     
     isProcessing = 0;
 

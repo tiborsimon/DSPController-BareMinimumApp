@@ -14,8 +14,8 @@
 #define NUM_SAMPLES 2
 #define SCALE   (16777216/2)
 
-#define L	0
-#define R	1
+#define L	1
+#define R	0
 
 // Function prototypes for this talkthrough code
 
