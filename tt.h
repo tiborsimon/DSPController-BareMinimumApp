@@ -14,10 +14,13 @@
 #define NUM_SAMPLES 2
 #define SCALE   (16777216/2)
 
+#define L	0
+#define R	1
+
 // Function prototypes for this talkthrough code
 
 extern void InitPLL(void);
-extern void processBlock(unsigned int *);
+extern void processBlock(float *input, float *output);
 
 extern void InitDAI(void);
 extern void Init1835viaSPI(void);
@@ -41,5 +44,8 @@ extern int isProcessing;
 extern int blockReady;
 extern unsigned int *src_pointer[3];
 extern int int_cntr;
+
+extern float input[2];
+extern float output[2];
 
 #endif

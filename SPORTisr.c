@@ -42,6 +42,10 @@ int blockReady=0;
 // buffer will be overwritten.
 int isProcessing=0;
 
+
+float input[2] = {0.0f,0.0f};
+float output[2] = {0.0f,0.0f};
+
 //If the processing takes too long, the program will be stuck in this infinite loop.
 void ProcessingTooLong()
 {
@@ -57,9 +61,18 @@ void TalkThroughISR(int sig_int)
     //Increment the block pointer
     int_cntr++;
     int_cntr %= 3;
-
-    blockReady = 1;
     
-    processBlock(src_pointer[int_cntr]);
+    
+    isProcessing = 1;
+    
+    input[L] = *((src_pointer[int_cntr])+L);
+    input[R] = *((src_pointer[int_cntr])+R);
+    
+    processBlock(input,output);
+    
+    *((src_pointer[int_cntr])+L) = output[L];
+    *((src_pointer[int_cntr])+R) = output[R];
+    
+    isProcessing = 0;
 
 }
