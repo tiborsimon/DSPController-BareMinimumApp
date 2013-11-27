@@ -33,7 +33,7 @@ void main(void)
     
     
     DSPController_init();
-    int i;
+    int i=0,k=0;
     
     // Be in infinite loop and do nothing until done.
     for(;;)
@@ -42,16 +42,28 @@ void main(void)
         
         DSPController_tick();
         
-        DSPController_lcd_top("hello");
+        
+        
+        unsigned char e = DSPController_get_event();
+        
+        if(0 != e) {
+            DSPController_lcd_top("hello: %d",e);
+            DSPController_lcd_bottom("hello: %d",k++);
+        }
+        
+        
         
         for(i=0;i<496;i++) {
 	     	asm volatile("nop;");
 	    }
-
+	    
+	    /*
+	    while(blockReady) {
+	     	processBlock(src_pointer[int_cntr]);   
+	    }
+	    */
         
-        
-     // while(blockReady)
-         // processBlock(src_pointer[int_cntr]);
+	    
     }
     
 }

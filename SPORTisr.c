@@ -50,8 +50,9 @@ void ProcessingTooLong()
 
 void TalkThroughISR(int sig_int)
 {
-    if(isProcessing)
+    if(isProcessing) {
         ProcessingTooLong();
+    }
 
     //Increment the block pointer
     int_cntr++;

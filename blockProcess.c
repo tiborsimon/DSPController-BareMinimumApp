@@ -8,7 +8,6 @@ void processBlock(unsigned int *block_ptr)
     int i;
     float temp_out;
     
-    DSPController_tick();
 
     //Clear the Block Ready Semaphore
     blockReady = 0;
@@ -18,7 +17,7 @@ void processBlock(unsigned int *block_ptr)
 
     for(i=0;i<NUM_SAMPLES;i++)
     {
-       *(block_ptr+i) =  -(*(block_ptr+i));
+       *(block_ptr+i) =  -(signed int)(*(block_ptr+i));
     }
 
     //Clear the Processing Active Semaphore after processing is complete

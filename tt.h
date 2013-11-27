@@ -11,7 +11,8 @@
 #include <def21364.h>
 #include <signal.h>
 
-#define NUM_SAMPLES 48
+#define NUM_SAMPLES 2
+#define SCALE   (16777216/2)
 
 // Function prototypes for this talkthrough code
 
