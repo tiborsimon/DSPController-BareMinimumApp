@@ -53,6 +53,7 @@ int TCB_Block_C[4] = { 0, sizeof(Block_C), 1, 0};
 
 void InitSPORT()
 {
+    
     TCB_Block_A[0] = (int) TCB_Block_A + 3 - OFFSET + PCI ;
     TCB_Block_A[3] = (unsigned int) Block_A - OFFSET ;
 	

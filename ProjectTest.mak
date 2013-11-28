@@ -38,9 +38,9 @@ ifeq ($(MAKECMDGOALS),ProjectTest_Debug)
 
 ProjectTest_Debug : ./Debug/ProjectTest.dxe 
 
-Debug/blockProcess.doj :blockProcess.c tt.h $(VDSP)/213xx/include/cdef21364.h $(VDSP)/213xx/include/Cdef21363.h $(VDSP)/213xx/include/def21364.h $(VDSP)/213xx/include/def21363.h $(VDSP)/213xx/include/signal.h DSPController.h $(VDSP)/213xx/include/stdio.h $(VDSP)/213xx/include/stdio_21xxx.h $(VDSP)/213xx/include/stdarg.h $(VDSP)/213xx/include/string.h $(VDSP)/213xx/include/SRU21364.h $(VDSP)/213xx/include/sru21363.h 
-	@echo ".\blockProcess.c"
-	$(VDSP)/cc21k.exe -c .\blockProcess.c -file-attr ProjectName=ProjectTest -g -structs-do-not-overlap -no-multiline -double-size-32 -warn-protos -proc ADSP-21364 -o .\Debug\blockProcess.doj -MM
+Debug/DSP.doj :DSP.c GLUE.h tt.h $(VDSP)/213xx/include/cdef21364.h $(VDSP)/213xx/include/Cdef21363.h $(VDSP)/213xx/include/def21364.h $(VDSP)/213xx/include/def21363.h $(VDSP)/213xx/include/signal.h DSPController.h $(VDSP)/213xx/include/stdio.h $(VDSP)/213xx/include/stdio_21xxx.h $(VDSP)/213xx/include/stdarg.h $(VDSP)/213xx/include/string.h $(VDSP)/213xx/include/SRU21364.h $(VDSP)/213xx/include/sru21363.h 
+	@echo ".\DSP.c"
+	$(VDSP)/cc21k.exe -c .\DSP.c -file-attr ProjectName=ProjectTest -g -structs-do-not-overlap -no-multiline -double-size-32 -warn-protos -proc ADSP-21364 -o .\Debug\DSP.doj -MM
 
 Debug/DSPController.doj :DSPController.c DSPController.h $(VDSP)/213xx/include/stdio.h $(VDSP)/213xx/include/stdio_21xxx.h $(VDSP)/213xx/include/stdarg.h $(VDSP)/213xx/include/string.h $(VDSP)/213xx/include/SRU21364.h $(VDSP)/213xx/include/sru21363.h $(VDSP)/213xx/include/def21363.h $(VDSP)/213xx/include/SRU.h 
 	@echo ".\DSPController.c"
@@ -62,33 +62,38 @@ Debug/initSPORT.doj :initSPORT.c tt.h $(VDSP)/213xx/include/cdef21364.h $(VDSP)/
 	@echo ".\initSPORT.c"
 	$(VDSP)/cc21k.exe -c .\initSPORT.c -file-attr ProjectName=ProjectTest -g -structs-do-not-overlap -no-multiline -double-size-32 -warn-protos -proc ADSP-21364 -o .\Debug\initSPORT.doj -MM
 
+Debug/INTERFACE.doj :INTERFACE.c GLUE.h tt.h $(VDSP)/213xx/include/cdef21364.h $(VDSP)/213xx/include/Cdef21363.h $(VDSP)/213xx/include/def21364.h $(VDSP)/213xx/include/def21363.h $(VDSP)/213xx/include/signal.h DSPController.h $(VDSP)/213xx/include/stdio.h $(VDSP)/213xx/include/stdio_21xxx.h $(VDSP)/213xx/include/stdarg.h $(VDSP)/213xx/include/string.h $(VDSP)/213xx/include/SRU21364.h $(VDSP)/213xx/include/sru21363.h 
+	@echo ".\INTERFACE.c"
+	$(VDSP)/cc21k.exe -c .\INTERFACE.c -file-attr ProjectName=ProjectTest -g -structs-do-not-overlap -no-multiline -double-size-32 -warn-protos -proc ADSP-21364 -o .\Debug\INTERFACE.doj -MM
+
 Debug/IRQprocess.doj :IRQprocess.c tt.h $(VDSP)/213xx/include/cdef21364.h $(VDSP)/213xx/include/Cdef21363.h $(VDSP)/213xx/include/def21364.h $(VDSP)/213xx/include/def21363.h $(VDSP)/213xx/include/signal.h ad1835.h 
 	@echo ".\IRQprocess.c"
 	$(VDSP)/cc21k.exe -c .\IRQprocess.c -file-attr ProjectName=ProjectTest -g -structs-do-not-overlap -no-multiline -double-size-32 -warn-protos -proc ADSP-21364 -o .\Debug\IRQprocess.doj -MM
 
-Debug/main.doj :main.c tt.h $(VDSP)/213xx/include/cdef21364.h $(VDSP)/213xx/include/Cdef21363.h $(VDSP)/213xx/include/def21364.h $(VDSP)/213xx/include/def21363.h $(VDSP)/213xx/include/signal.h DSPController.h $(VDSP)/213xx/include/stdio.h $(VDSP)/213xx/include/stdio_21xxx.h $(VDSP)/213xx/include/stdarg.h $(VDSP)/213xx/include/string.h $(VDSP)/213xx/include/SRU21364.h $(VDSP)/213xx/include/sru21363.h 
+Debug/main.doj :main.c tt.h $(VDSP)/213xx/include/cdef21364.h $(VDSP)/213xx/include/Cdef21363.h $(VDSP)/213xx/include/def21364.h $(VDSP)/213xx/include/def21363.h $(VDSP)/213xx/include/signal.h 
 	@echo ".\main.c"
 	$(VDSP)/cc21k.exe -c .\main.c -file-attr ProjectName=ProjectTest -g -structs-do-not-overlap -no-multiline -double-size-32 -warn-protos -proc ADSP-21364 -o .\Debug\main.doj -MM
 
-Debug/SPORTisr.doj :SPORTisr.c tt.h $(VDSP)/213xx/include/cdef21364.h $(VDSP)/213xx/include/Cdef21363.h $(VDSP)/213xx/include/def21364.h $(VDSP)/213xx/include/def21363.h $(VDSP)/213xx/include/signal.h $(VDSP)/213xx/include/stdio.h $(VDSP)/213xx/include/stdio_21xxx.h 
+Debug/SPORTisr.doj :SPORTisr.c tt.h $(VDSP)/213xx/include/cdef21364.h $(VDSP)/213xx/include/Cdef21363.h $(VDSP)/213xx/include/def21364.h $(VDSP)/213xx/include/def21363.h $(VDSP)/213xx/include/signal.h $(VDSP)/213xx/include/stdio.h $(VDSP)/213xx/include/stdio_21xxx.h DSPController.h $(VDSP)/213xx/include/stdarg.h $(VDSP)/213xx/include/string.h $(VDSP)/213xx/include/SRU21364.h $(VDSP)/213xx/include/sru21363.h 
 	@echo ".\SPORTisr.c"
 	$(VDSP)/cc21k.exe -c .\SPORTisr.c -file-attr ProjectName=ProjectTest -g -structs-do-not-overlap -no-multiline -double-size-32 -warn-protos -proc ADSP-21364 -o .\Debug\SPORTisr.doj -MM
 
-./Debug/ProjectTest.dxe :$(VDSP)/213xx/ldf/ADSP-21364.ldf $(VDSP)/213xx/lib/2136x_rev_0.0/364_hdr.doj ./Debug/blockProcess.doj ./Debug/DSPController.doj ./Debug/init1835viaSPI.doj ./Debug/initDAI.doj ./Debug/initPLL.doj ./Debug/initSPORT.doj ./Debug/IRQprocess.doj ./Debug/main.doj ./Debug/SPORTisr.doj $(VDSP)/213xx/lib/2136x_rev_0.0/libc36x.dlb $(VDSP)/213xx/lib/2136x_rev_0.0/libio.dlb $(VDSP)/213xx/lib/2136x_rev_0.0/libdsp36x.dlb $(VDSP)/213xx/lib/2136x_rev_0.0/libcpp.dlb $(VDSP)/213xx/lib/2136x_rev_0.0/libeh.dlb $(VDSP)/213xx/lib/2136x_rev_0.0/libcpprt.dlb 
+./Debug/ProjectTest.dxe :$(VDSP)/213xx/ldf/ADSP-21364.ldf $(VDSP)/213xx/lib/2136x_rev_0.0/364_hdr.doj ./Debug/DSP.doj ./Debug/DSPController.doj ./Debug/init1835viaSPI.doj ./Debug/initDAI.doj ./Debug/initPLL.doj ./Debug/initSPORT.doj ./Debug/INTERFACE.doj ./Debug/IRQprocess.doj ./Debug/main.doj ./Debug/SPORTisr.doj $(VDSP)/213xx/lib/2136x_rev_0.0/libc36x.dlb $(VDSP)/213xx/lib/2136x_rev_0.0/libio.dlb $(VDSP)/213xx/lib/2136x_rev_0.0/libdsp36x.dlb $(VDSP)/213xx/lib/2136x_rev_0.0/libcpp.dlb $(VDSP)/213xx/lib/2136x_rev_0.0/libeh.dlb $(VDSP)/213xx/lib/2136x_rev_0.0/libcpprt.dlb 
 	@echo "Linking..."
-	$(VDSP)/cc21k.exe .\Debug\blockProcess.doj .\Debug\DSPController.doj .\Debug\init1835viaSPI.doj .\Debug\initDAI.doj .\Debug\initPLL.doj .\Debug\initSPORT.doj .\Debug\IRQprocess.doj .\Debug\main.doj .\Debug\SPORTisr.doj -L .\Debug -flags-link -od,.\Debug -o .\Debug\ProjectTest.dxe -proc ADSP-21364 -MM
+	$(VDSP)/cc21k.exe .\Debug\DSP.doj .\Debug\DSPController.doj .\Debug\init1835viaSPI.doj .\Debug\initDAI.doj .\Debug\initPLL.doj .\Debug\initSPORT.doj .\Debug\INTERFACE.doj .\Debug\IRQprocess.doj .\Debug\main.doj .\Debug\SPORTisr.doj -L .\Debug -flags-link -od,.\Debug -o .\Debug\ProjectTest.dxe -proc ADSP-21364 -MM
 
 endif
 
 ifeq ($(MAKECMDGOALS),ProjectTest_Debug_clean)
 
 ProjectTest_Debug_clean:
-	-$(RM) "Debug\blockProcess.doj"
+	-$(RM) "Debug\DSP.doj"
 	-$(RM) "Debug\DSPController.doj"
 	-$(RM) "Debug\init1835viaSPI.doj"
 	-$(RM) "Debug\initDAI.doj"
 	-$(RM) "Debug\initPLL.doj"
 	-$(RM) "Debug\initSPORT.doj"
+	-$(RM) "Debug\INTERFACE.doj"
 	-$(RM) "Debug\IRQprocess.doj"
 	-$(RM) "Debug\main.doj"
 	-$(RM) "Debug\SPORTisr.doj"

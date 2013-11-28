@@ -22,6 +22,9 @@
 #define DAC3
 #define DAC4  //eredetileg csak ez.
 
+
+
+
 // Function prototypes for this talkthrough code
 
 extern void InitPLL(void);
@@ -70,6 +73,21 @@ extern int rightOut1_i, leftOut1_i;
 extern int rightOut2_i, leftOut2_i;
 extern int rightOut3_i, leftOut3_i;
 extern int rightOut4_i, leftOut4_i;
+
+#define INIT_SHARC  {								\
+    					InitPLL ();					\
+						SetupIRQ12 ();				\
+    					InitDAI();					\
+						Init1835viaSPI();			\
+    					InitSPORT();				\
+						interrupt(SIG_SP0,receive);	\
+					}
+
+// INTERFACE functions
+void initInterface(void);
+void updateInterface(void);
+
+void process(void);
 
 
 #endif
