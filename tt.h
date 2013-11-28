@@ -17,6 +17,11 @@
 #define L	1
 #define R	0
 
+#define DAC1
+#define DAC2
+#define DAC3
+#define DAC4  //eredetileg csak ez.
+
 // Function prototypes for this talkthrough code
 
 extern void InitPLL(void);
@@ -26,7 +31,7 @@ extern void InitDAI(void);
 extern void Init1835viaSPI(void);
 
 extern void InitSPORT(void);
-extern void TalkThroughISR(int);
+extern void receive(int);
 extern void ClearSPORT(void);
 
 extern void SetupSPI1835 () ;
@@ -47,5 +52,24 @@ extern int int_cntr;
 
 extern float input[2];
 extern float output[2];
+
+
+extern unsigned int Block_A[NUM_SAMPLES] ;
+extern unsigned int Block_B[NUM_SAMPLES] ;
+extern unsigned int Block_C[NUM_SAMPLES] ;
+
+
+extern float rightIn  , leftIn;
+extern float rightOut1, leftOut1;
+extern float rightOut2, leftOut2;
+extern float rightOut3, leftOut3;
+extern float rightOut4, leftOut4;
+
+extern int rightIn_i  , leftIn_i;
+extern int rightOut1_i, leftOut1_i;
+extern int rightOut2_i, leftOut2_i;
+extern int rightOut3_i, leftOut3_i;
+extern int rightOut4_i, leftOut4_i;
+
 
 #endif

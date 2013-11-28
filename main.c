@@ -27,7 +27,7 @@ void main(void)
     // Finally setup the sport to receive / transmit the data
     InitSPORT();
 
-    interrupt (SIG_SP0,TalkThroughISR);
+    interrupt (SIG_SP0,receive);
     // interrupt (SIG_IRQ1, Irq1ISR) ;
     // interrupt (SIG_IRQ2, Irq2ISR) ;
     
