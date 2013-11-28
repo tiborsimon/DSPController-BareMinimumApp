@@ -12,7 +12,7 @@
 #include <signal.h>
 
 #define NUM_SAMPLES 2
-#define SCALE   (16777216/2)
+#define SCALE   (16777216)
 
 #define L	1
 #define R	0

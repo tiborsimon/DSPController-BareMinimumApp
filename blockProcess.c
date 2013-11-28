@@ -5,7 +5,7 @@
 // as unsigned integer pointers.
 void processBlock(float *input, float *output) {
     
-    output[L] =  0.5f*input[L];
+    output[L] =  input[L];
     output[R] = -input[R];
     
 }

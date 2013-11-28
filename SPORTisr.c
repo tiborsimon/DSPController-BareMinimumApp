@@ -66,9 +66,15 @@ void TalkThroughISR(int sig_int)
     
     isProcessing = 1;
     
+    unsigned int a = *((src_pointer[int_cntr])+L);
+    unsigned int b = *((src_pointer[int_cntr])+R);
+    
     // point to the input samples
     input[L] = (float)(*((src_pointer[int_cntr])+L)) / (float)SCALE;
     input[R] = (float)(*((src_pointer[int_cntr])+R)) / (float)SCALE;
+    
+    output[L] = input[L];
+    output[R] = input[R];
     
     processBlock(input,output);
     

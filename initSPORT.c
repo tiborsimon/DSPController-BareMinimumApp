@@ -38,7 +38,7 @@ unsigned int Block_B[NUM_SAMPLES] ;
 unsigned int Block_C[NUM_SAMPLES] ;
 
 //Set up the TCBs to rotate automatically
-int TCB_Block_A[4] = { 0, sizeof(Block_A), 1, 0};;
+int TCB_Block_A[4] = { 0, sizeof(Block_A), 1, 0};
 int TCB_Block_B[4] = { 0, sizeof(Block_B), 1, 0};
 int TCB_Block_C[4] = { 0, sizeof(Block_C), 1, 0};
 
