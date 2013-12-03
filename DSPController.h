@@ -40,6 +40,7 @@
 
 #define DSPC_CONV_TYPE                          float
 
+
 #define DSPC_ENCODER_VELOCITY_THRESHOLD			300
 #define DSPC_ENCODER_VELOCITY_MULTIPLIER		3
 

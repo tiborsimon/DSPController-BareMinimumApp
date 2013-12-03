@@ -1,9 +1,16 @@
 #include "GLUE.h"
 
+//==========================================================//
+//    D I G I T A L   S I G N A L   P R O C E S S I N G     //
+//==========================================================//
+// 															//
+//                                                          //
+//                                                          //
+//==========================================================//
 
 void process(void) {
     
-    float outL = 0.5*leftIn;
+    float outL = GLUE_volume*leftIn;
 	float outR = -rightIn;
     
     rightOut1 = outR;
