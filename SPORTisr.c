@@ -27,11 +27,17 @@
 
 
 
-float rightIn  , leftIn;
-float rightOut1, leftOut1;
-float rightOut2, leftOut2;
-float rightOut3, leftOut3;
-float rightOut4, leftOut4;
+float inRight  , inLeft;
+float out1Right, out1Left;
+float out2Right, out2Left;
+float out3Right, out3Left;
+float out4Right, out4Left;
+
+extern float inRight  , inLeft;
+extern float out1Right, out1Left;
+extern float out2Right, out2Left;
+extern float out3Right, out3Left;
+extern float out4Right, out4Left;
 
 
 
@@ -42,7 +48,7 @@ float rightOut3D, leftOut3D;
 float rightOut4D, leftOut4D;
 
 
-float rightInNext   , leftIn;
+float rightInNext   , inLeft;
 float rightOut1D    , leftOut1DNext;
 float rightOut2D    , leftOut2DNext;
 float rightOut3D    , leftOut3DNext;
@@ -145,12 +151,12 @@ void receive(int sig_int)
     
         
     #ifdef  DELAY_LEFT_IN   
-        rightIn = rightInNext;  
+        inRight = rightInNext;  
         rightInNext = (float)rightIn_i / (float)SCALE;        
-        leftIn  = (float)leftIn_i  / (float)SCALE;
+        inLeft  = (float)leftIn_i  / (float)SCALE;
     #else
-        rightIn = (float)rightIn_i / (float)SCALE;        
-        leftIn  = (float)leftIn_i  / (float)SCALE;
+        inRight = (float)rightIn_i / (float)SCALE;        
+        inLeft  = (float)leftIn_i  / (float)SCALE;
     #endif
 
                     
@@ -159,27 +165,27 @@ void receive(int sig_int)
 
                      
     #ifdef DELAY_LEFT_OUT
-        rightOut1D = rightOut1;                        
+        rightOut1D = out1Right;                        
         leftOut1D  = leftOut1DNext;                        
-        leftOut1DNext = leftOut1;                        
-        rightOut2D = rightOut2;                        
+        leftOut1DNext = out1Left;                        
+        rightOut2D = out2Right;                        
         leftOut2D  = leftOut2DNext;                        
-        leftOut2DNext = leftOut2;
-        rightOut3D = rightOut3;                        
+        leftOut2DNext = out2Left;
+        rightOut3D = out3Right;                        
         leftOut3D  = leftOut3DNext;                        
-        leftOut3DNext = leftOut3;
-        rightOut4D = rightOut4;                        
+        leftOut3DNext = out3Left;
+        rightOut4D = out4Right;                        
         leftOut4D  = leftOut4DNext;                        
-        leftOut4DNext = leftOut4;
+        leftOut4DNext = out4Left;
     #else
-        rightOut1D = rightOut1;                        
-        leftOut1D  = leftOut1;                        
-        rightOut2D = rightOut2;                        
-        leftOut2D  = leftOut2;                        
-        rightOut3D = rightOut3;                        
-        leftOut3D  = leftOut3;                        
-        rightOut4D = rightOut4;                        
-        leftOut4D  = leftOut4;                        
+        rightOut1D = out1Right;                        
+        leftOut1D  = out1Left;                        
+        rightOut2D = out2Right;                        
+        leftOut2D  = out2Left;                        
+        rightOut3D = out3Right;                        
+        leftOut3D  = out3Left;                        
+        rightOut4D = out4Right;                        
+        leftOut4D  = out4Left;                        
     #endif
 
 

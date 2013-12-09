@@ -36,7 +36,7 @@ void process(void) {
     // PREPARE THE WORKING VARIABLES
     //====================================================================
     float left  = inLeft;
-    float right = inLeft;
+    float right = inRight;
 
 
     //====================================================================

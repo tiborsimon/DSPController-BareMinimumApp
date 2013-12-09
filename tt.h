@@ -62,11 +62,11 @@ extern unsigned int Block_B[NUM_SAMPLES] ;
 extern unsigned int Block_C[NUM_SAMPLES] ;
 
 
-extern float rightIn  , leftIn;
-extern float rightOut1, leftOut1;
-extern float rightOut2, leftOut2;
-extern float rightOut3, leftOut3;
-extern float rightOut4, leftOut4;
+extern float inRight  , inLeft;
+extern float out1Right, out1Left;
+extern float out2Right, out2Left;
+extern float out3Right, out3Left;
+extern float out4Right, out4Left;
 
 extern int rightIn_i  , leftIn_i;
 extern int rightOut1_i, leftOut1_i;
