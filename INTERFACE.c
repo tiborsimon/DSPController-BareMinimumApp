@@ -21,9 +21,10 @@
 
 // Defined symbols
 #define DEFAULT_GLUE_VOLUME     0.5f
+#define MAX_VOLUME				40
 
 // Local variables
-int k = 0;
+int volume = 20;
 
 // GLUE variables
 float GLUE_volume = DEFAULT_GLUE_VOLUME;
@@ -41,8 +42,7 @@ float GLUE_volume = DEFAULT_GLUE_VOLUME;
 
 void initInterface(void) {
     
-    DSPController_init();
-    DSPController_assembler_engage();
+    DSPController_init( FS_48KHZ | ENCODER_VELOCITY_ON );
     
 }
 
@@ -66,14 +66,20 @@ void initInterface(void) {
 
 void updateInterface(void) {
     
-    unsigned char e = DSPController_get_event();
+    // Event e = DSPController_get_event();
+    
+    int temp_volume = DSPController_get_encoder(3);
+    
+    if(temp_volume != 0) {
+        volume += temp_volume;
         
-    if(0 != e) {
-        DSPController_lcd_top("hello: %d",e);
-        DSPController_lcd_bottom("hello: %d",k++);
+        if (volume < 0) volume = 0;
+        if (volume >  MAX_VOLUME) volume =  MAX_VOLUME;
         
-        if (e == DSPC_EVENT_E1_SHORT) GLUE_volume = 0.9f;
-        if (e == DSPC_EVENT_E3_SHORT) GLUE_volume = 0.2f;
+        GLUE_volume = (float)(volume)/(float)MAX_VOLUME; 
     }
+    
+    DSPController_lcd_top("Bare minimum app");
+    DSPController_lcd_bottom("Volume     [%02d]",volume);
 
 }

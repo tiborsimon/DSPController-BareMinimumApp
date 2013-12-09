@@ -6,6 +6,72 @@
 #include <SRU.h>
 
 
+
+
+//========================================================================
+//------------------------------------------------------------------------
+//                          V A R I A B L E S
+//------------------------------------------------------------------------
+//========================================================================
+
+//========================================================================
+//  C O R E   V A R I A B L E S
+//========================================================================
+// settings variables
+volatile int 		dspcontroller_tick_threshold = DSPC_TICK_THRESHOLD_48;
+volatile char 				dspcontroller_encoder_velocity_enabled = 1;
+
+// state machine variables
+volatile short          	dspcontroller_tick_counter;
+volatile unsigned char	    dspcontroller_spi_state;
+volatile unsigned char	    dspcontroller_receive_counter;
+
+// event handling variables
+volatile unsigned char 		dspcontroller_event_buffer[DSPC_EVENT_BUFFER_SIZE];
+volatile unsigned char      dspcontroller_event_pointer;
+
+// encoder variables
+volatile int         		dspcontroller_encoder_1;   
+volatile int         		dspcontroller_encoder_2; 
+volatile int         		dspcontroller_encoder_3;
+
+volatile int 				dspcontroller_encoder_velocity_1;
+volatile int 				dspcontroller_encoder_velocity_2;
+volatile int 				dspcontroller_encoder_velocity_3;
+
+// led handling variables
+volatile unsigned char	    dspcontroller_led_l;
+volatile unsigned char	    dspcontroller_led_r;
+volatile unsigned char      dspcontroller_led_l_out;
+volatile unsigned char      dspcontroller_led_r_out;
+volatile unsigned char      dspcontroller_led_counter;
+volatile unsigned char      dspcontroller_led_cycle_counter;
+volatile unsigned char      dspcontroller_leds_are_waiting;
+
+// lcd handling variables
+volatile unsigned char	    dspcontroller_lcd_top_is_waiting;
+volatile unsigned char      dspcontroller_lcd_top_counter;
+volatile unsigned char      dspcontroller_lcd_top_cycle_counter;
+volatile short          	dspcontroller_lcd_top_sum;
+
+volatile unsigned char	    dspcontroller_lcd_bottom_is_waiting;
+volatile unsigned char      dspcontroller_lcd_bottom_counter;
+volatile unsigned char      dspcontroller_lcd_bottom_cycle_counter;
+volatile short          	dspcontroller_lcd_bottom_sum;
+
+ char		dspcontroller_lcd_top[16];
+ char		dspcontroller_lcd_bottom[16];
+ char      dspcontroller_lcd_top_out[16];
+ char      dspcontroller_lcd_bottom_out[16];
+
+// dip handling variables
+volatile unsigned char      dspcontroller_dip;
+volatile unsigned char      dspcontroller_dip_counter;
+
+
+
+
+
 //========================================================================
 //------------------------------------------------------------------------
 //            D S P   C O N T R O L L E R   C O R E   A P I
@@ -47,7 +113,34 @@ void dspcontroller_spi_init() {
 //------------------------------------------------------------------------
 //========================================================================
 
-void DSPController_init() {
+
+void DSPController_init_default() {
+    
+    dspcontroller_tick_threshold = DSPC_TICK_THRESHOLD_48;
+    dspcontroller_encoder_velocity_enabled = 1;
+    
+    dspcontroller_init();
+}
+
+void DSPController_init(int code) {
+    
+    if((code & 0x01) != 0) {
+        dspcontroller_tick_threshold = DSPC_TICK_THRESHOLD_48;
+    } else {
+        dspcontroller_tick_threshold = DSPC_TICK_THRESHOLD_96;
+    }
+    
+    if((code & 0x02) != 0) {
+        dspcontroller_encoder_velocity_enabled = 1;
+    } else {
+        dspcontroller_encoder_velocity_enabled = 0;
+    }
+    
+    dspcontroller_init();
+}
+
+
+void dspcontroller_init() {
 
     // state machine variables
     dspcontroller_tick_counter = 0;
@@ -100,8 +193,8 @@ void DSPController_init() {
 //========================================================================
 
 void DSPController_tick() {
-    // állapotgép frissítése
-    if(dspcontroller_tick_counter++ == DSPC_TICK_THRESHOLD) {
+    // update state machine
+    if(dspcontroller_tick_counter++ == dspcontroller_tick_threshold) {
         dspcontroller_tick_counter = 0;
 
         // counter logic
@@ -378,7 +471,7 @@ void dspcontroller_process_event(unsigned char event) {
         
         if (address == 13) {
             
-            if (dspcontroller_encoder_velocity_1 > 0) {
+            if (dspcontroller_encoder_velocity_enabled != 0 && dspcontroller_encoder_velocity_1 > 0) {
                 value *= DSPC_ENCODER_VELOCITY_MULTIPLIER;
             }
             
@@ -388,7 +481,7 @@ void dspcontroller_process_event(unsigned char event) {
         
         if (address == 14) {
             
-            if (dspcontroller_encoder_velocity_2 > 0) {
+            if (dspcontroller_encoder_velocity_enabled != 0 && dspcontroller_encoder_velocity_2 > 0) {
                 value *= DSPC_ENCODER_VELOCITY_MULTIPLIER;
             }
             
@@ -398,7 +491,7 @@ void dspcontroller_process_event(unsigned char event) {
         
         if (address == 15) {
             
-            if (dspcontroller_encoder_velocity_3 > 0) {
+            if (dspcontroller_encoder_velocity_enabled != 0 && dspcontroller_encoder_velocity_3 > 0) {
                 value *= DSPC_ENCODER_VELOCITY_MULTIPLIER;
             }
             
@@ -417,6 +510,9 @@ void dspcontroller_process_event(unsigned char event) {
 
 void dspcontroller_add_event_to_buffer(unsigned char event) {
     // dspcontroller_atomic_block_BEGIN();
+    if(dspcontroller_event_pointer == DSPC_EVENT_BUFFER_SIZE-1) {
+        return;
+    }
     dspcontroller_event_buffer[dspcontroller_event_pointer++] = event;
     // dspcontroller_atomic_block_END();
 }

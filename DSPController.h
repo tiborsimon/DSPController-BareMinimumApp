@@ -28,9 +28,29 @@
 //========================================================================
 
 //========================================================================
+//  T Y P E   D E F I N I T I O N S
+//========================================================================
+
+typedef unsigned char 	Event;
+typedef unsigned char	DIP;
+typedef signed short	Encoder;
+
+
+//========================================================================
+//  S E T T I N G S   S Y M B O L S
+//========================================================================
+
+#define FS_48KHZ									0x01
+#define FS_96KHZ									0x00
+
+#define ENCODER_VELOCITY_ON							0x02
+#define ENCODER_VELOCITY_OFF						0x00
+
+//========================================================================
 //  V A R I A B L E   P A R A M E T E R S
 //========================================================================
-#define DSPC_TICK_THRESHOLD                     20   /* @48kHz */
+#define DSPC_TICK_THRESHOLD_48                  20   /* @48kHz */
+#define DSPC_TICK_THRESHOLD_96                  40   /* @96kHz */
 
 #define DSPC_LED_COUNTER_MAX                    4
 #define DSPC_LCD_COUNTER_MAX                    30
@@ -249,67 +269,6 @@
 #define DSPC_SHARC_GM	   (0x0008)  /* GM - overwrite wit hnew data if rx is full */
 
 
-
-
-
-
-//========================================================================
-//------------------------------------------------------------------------
-//                          V A R I A B L E S
-//------------------------------------------------------------------------
-//========================================================================
-
-//========================================================================
-//  C O R E   V A R I A B L E S
-//========================================================================
-// state machine variables
-volatile short          	dspcontroller_tick_counter;
-volatile unsigned char	    dspcontroller_spi_state;
-volatile unsigned char	    dspcontroller_receive_counter;
-
-// event handling variables
-volatile unsigned char 		dspcontroller_event_buffer[DSPC_EVENT_BUFFER_SIZE];
-volatile unsigned char      dspcontroller_event_pointer;
-
-// encoder variables
-volatile int         		dspcontroller_encoder_1;   
-volatile int         		dspcontroller_encoder_2; 
-volatile int         		dspcontroller_encoder_3;
-
-volatile int 				dspcontroller_encoder_velocity_1;
-volatile int 				dspcontroller_encoder_velocity_2;
-volatile int 				dspcontroller_encoder_velocity_3;
-
-// led handling variables
-volatile unsigned char	    dspcontroller_led_l;
-volatile unsigned char	    dspcontroller_led_r;
-volatile unsigned char      dspcontroller_led_l_out;
-volatile unsigned char      dspcontroller_led_r_out;
-volatile unsigned char      dspcontroller_led_counter;
-volatile unsigned char      dspcontroller_led_cycle_counter;
-volatile unsigned char      dspcontroller_leds_are_waiting;
-
-// lcd handling variables
-volatile unsigned char	    dspcontroller_lcd_top_is_waiting;
-volatile unsigned char      dspcontroller_lcd_top_counter;
-volatile unsigned char      dspcontroller_lcd_top_cycle_counter;
-volatile short          	dspcontroller_lcd_top_sum;
-
-volatile unsigned char	    dspcontroller_lcd_bottom_is_waiting;
-volatile unsigned char      dspcontroller_lcd_bottom_counter;
-volatile unsigned char      dspcontroller_lcd_bottom_cycle_counter;
-volatile short          	dspcontroller_lcd_bottom_sum;
-
- char		dspcontroller_lcd_top[16];
- char		dspcontroller_lcd_bottom[16];
- char      dspcontroller_lcd_top_out[16];
- char      dspcontroller_lcd_bottom_out[16];
-
-// dip handling variables
-volatile unsigned char      dspcontroller_dip;
-volatile unsigned char      dspcontroller_dip_counter;
-
-
 //========================================================================
 //------------------------------------------------------------------------
 //                          F U N C T I O N S
@@ -330,6 +289,7 @@ void dspcontroller_spi_init(void);
 //========================================================================
 //  L O W   L E V E L   A P I   F U N C T I O N S 
 //========================================================================
+void dspcontroller_init(void);
 void dspcontroller_process_event(unsigned char event);
 void dspcontroller_add_event_to_buffer(unsigned char event);
 void dspcontroller_lcd_handler(unsigned char line, const char* format, va_list args);
@@ -337,7 +297,8 @@ void dspcontroller_lcd_handler(unsigned char line, const char* format, va_list a
 //========================================================================
 //  C O R E   A P I   F U N C T I O N S 
 //========================================================================
-void DSPController_init(void);
+void DSPController_init_default(void);
+void DSPController_init(int code);
 void DSPController_tick(void);
 void DSPController_led(unsigned char leftLed, unsigned char rightLed);
 void DSPController_lcd_top(const char* format, ...);
