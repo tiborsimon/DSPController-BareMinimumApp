@@ -27,17 +27,35 @@
 
 
 
-float inLeft  , inRight;
-float out1Left, out1Right;
-float out2Left, out2Right;
-float out3Left, out3Right;
-float out4Left, out4Right;
+float rightIn  , leftIn;
+float rightOut1, leftOut1;
+float rightOut2, leftOut2;
+float rightOut3, leftOut3;
+float rightOut4, leftOut4;
 
-int inLeft_i  , inRight_i;
-int out1Left_i, out1Right_i;
-int out2Left_i, out2Right_i;
-int out3Left_i, out3Right_i;
-int out4Left_i, out4Right_i;
+
+
+float rightInD  , leftInD;
+float rightOut1D, leftOut1D;
+float rightOut2D, leftOut2D;
+float rightOut3D, leftOut3D;
+float rightOut4D, leftOut4D;
+
+
+float rightInNext   , leftIn;
+float rightOut1D    , leftOut1DNext;
+float rightOut2D    , leftOut2DNext;
+float rightOut3D    , leftOut3DNext;
+float rightOut4D    , leftOut4DNext;
+
+//#define DELAY_LEFT_OUT 
+//#define DELAY_LEFT_IN
+
+int rightIn_i  , leftIn_i;
+int rightOut1_i, leftOut1_i;
+int rightOut2_i, leftOut2_i;
+int rightOut3_i, leftOut3_i;
+int rightOut4_i, leftOut4_i;
 
 
 int mode1RegSPisr, mode1RegSPisr2;
@@ -55,122 +73,136 @@ bool channelCheck;
 void receive(int sig_int)
 {
     //    if(isProcessing){  ProcessingTooLong();}
-	if (1==isProcessing	){
-			asm volatile(
-	     			"%0 = mode1;\n\t"
-		     		: "=d" (mode1RegSPisr): :);//PEYEN
-	}
-
-	if (0==isProcessing	){
-			asm volatile(
-	     			"%0 = mode1;\n\t"
-	     			: "=d" (mode1RegSPisr2): :);//PEYEN
-	}
 
 
     channelCheck = !!((*pDAI_PIN_STAT)&DAI_PB14);
-
-    // GET input samples
-	if ( channelCheck	){   //így kompatibilis a 4.0-s VisualDSP-vel
-		inRight_i = (int) Block_A[RIGHT];  
-	    inLeft_i  = (int) Block_A[LEFT];  
-	} else{
-		inLeft_i  = (int) Block_A[RIGHT];
-	 	inRight_i = (int) Block_A[LEFT];   
-	}
-
-    inRight = (float)inRight_i / (float)SCALE;        
-    inLeft  = (float)inLeft_i  / (float)SCALE;
-
-    // prefill outputs
-    out1Left  = inLeft;
-    out1Right = inRight;
-    out2Left  = inLeft;
-    out2Right = inRight;
-    out3Left  = inLeft;
-    out3Right = inRight;
-    out4Left  = inLeft;
-    out4Right = inRight;
-
-    // DSPController TICK
-    DSPController_tick();
-
-    // Signal Processing
-    isProcessing = 1;
-    process();
-    isProcessing = 0;
-
-
-	// convert and scale
-    out1Left_i  = (unsigned int)(out1Left  * SCALE);
-    out1Right_i = (unsigned int)(out1Right * SCALE);
-
-    out2Left_i  = (unsigned int)(out2Left  * SCALE);
-    out2Right_i = (unsigned int)(out2Right * SCALE);
-
-    out3Left_i  = (unsigned int)(out3Left  * SCALE);
-    out3Right_i = (unsigned int)(out3Right * SCALE);
-
-    out4Left_i  = (unsigned int)(out4Left  * SCALE);
-    out4Right_i = (unsigned int)(out4Right * SCALE);
-
-    #define SATURATE(in,sat) if ((in)>(sat)) in = sat; if ((in)<(-sat)) in = -sat;
-
-	SATURATE(out1Left_i ,0x007FFFFF);
-	SATURATE(out1Right_i,0x007FFFFF);
-
-    SATURATE(out2Left_i ,0x007FFFFF);
-    SATURATE(out2Right_i,0x007FFFFF);
-
-    SATURATE(out3Left_i ,0x007FFFFF);
-    SATURATE(out3Right_i,0x007FFFFF);
-
-    SATURATE(out4Left_i ,0x007FFFFF);
-    SATURATE(out4Right_i,0x007FFFFF);
-
-
-
     //adó reg.-be írás
     if ( channelCheck   ){  //így kompatibilis a 4.0-s VisualDSP-vel
         #ifdef DAC1
-            *pTXSP1A = out1Right_i;
-            *pTXSP1A = out1Left_i;
+            *pTXSP1A = rightOut1_i;
+            *pTXSP1A = leftOut1_i;
         #endif
         
         #ifdef DAC2
-            *pTXSP1B = out2Right_i;
-            *pTXSP1B = out2Left_i;
+            *pTXSP1B = rightOut2_i;
+            *pTXSP1B = leftOut2_i;
         #endif
         
         #ifdef DAC3
-            *pTXSP2A = out3Right_i;
-            *pTXSP2A = out3Left_i;
+            *pTXSP2A = rightOut3_i;
+            *pTXSP2A = leftOut3_i;
         #endif
             
         #ifdef DAC4
-            *pTXSP2B = out4Right_i;
-            *pTXSP2B = out4Left_i;
+            *pTXSP2B = rightOut4_i;
+            *pTXSP2B = leftOut4_i;
         #endif    
     } else {
         #ifdef DAC1
-            *pTXSP1A = out1Left_i;
-            *pTXSP1A = out1Right_i;
+            *pTXSP1A = leftOut1_i;
+            *pTXSP1A = rightOut1_i;
         #endif
         
         #ifdef DAC2
-            *pTXSP1B = out2Left_i;
-            *pTXSP1B = out2Right_i;
+           *pTXSP1B = leftOut2_i;
+            *pTXSP1B = rightOut2_i;
         #endif
             
         #ifdef DAC3
-            *pTXSP2A = out3Left_i;
-            *pTXSP2A = out3Right_i;
+            *pTXSP2A = leftOut3_i;
+            *pTXSP2A = rightOut3_i;
         #endif
             
         #ifdef DAC4
-            *pTXSP2B = out4Left_i;
-            *pTXSP2B = out4Right_i;
+            *pTXSP2B = leftOut4_i;
+            *pTXSP2B = rightOut4_i;
         #endif    
     }   
+
+
+    if (1==isProcessing ){
+            asm volatile(
+                    "%0 = mode1;\n\t"
+                    : "=d" (mode1RegSPisr): :);//PEYEN
+                        }
+
+    if (0==isProcessing ){
+            asm volatile(
+                    "%0 = mode1;\n\t"
+                    : "=d" (mode1RegSPisr2): :);//PEYEN
+                        }
+        
+
+
+            
+    if ( channelCheck   ){   //így kompatibilis a 4.0-s VisualDSP-vel
+        rightIn_i = (int) Block_A[RIGHT];  
+        leftIn_i  = (int) Block_A[LEFT];  
+    } else{
+        leftIn_i  = (int) Block_A[RIGHT];
+        rightIn_i = (int) Block_A[LEFT];   
+    }    
+    
+        
+    #ifdef  DELAY_LEFT_IN   
+        rightIn = rightInNext;  
+        rightInNext = (float)rightIn_i / (float)SCALE;        
+        leftIn  = (float)leftIn_i  / (float)SCALE;
+    #else
+        rightIn = (float)rightIn_i / (float)SCALE;        
+        leftIn  = (float)leftIn_i  / (float)SCALE;
+    #endif
+
+                    
+        
+             
+
+                     
+    #ifdef DELAY_LEFT_OUT
+        rightOut1D = rightOut1;                        
+        leftOut1D  = leftOut1DNext;                        
+        leftOut1DNext = leftOut1;                        
+        rightOut2D = rightOut2;                        
+        leftOut2D  = leftOut2DNext;                        
+        leftOut2DNext = leftOut2;
+        rightOut3D = rightOut3;                        
+        leftOut3D  = leftOut3DNext;                        
+        leftOut3DNext = leftOut3;
+        rightOut4D = rightOut4;                        
+        leftOut4D  = leftOut4DNext;                        
+        leftOut4DNext = leftOut4;
+    #else
+        rightOut1D = rightOut1;                        
+        leftOut1D  = leftOut1;                        
+        rightOut2D = rightOut2;                        
+        leftOut2D  = leftOut2;                        
+        rightOut3D = rightOut3;                        
+        leftOut3D  = leftOut3;                        
+        rightOut4D = rightOut4;                        
+        leftOut4D  = leftOut4;                        
+    #endif
+
+
+    //típuskonverzió és skálázás
+    rightOut1_i = (unsigned int)(rightOut1D * SCALE);
+    leftOut1_i  = (unsigned int)( leftOut1D * SCALE);
+
+    rightOut2_i = (unsigned int)(rightOut2D * SCALE);
+    leftOut2_i  = (unsigned int)( leftOut2D * SCALE);
+
+    rightOut3_i = (unsigned int)(rightOut3D * SCALE);
+    leftOut3_i  = (unsigned int)( leftOut3D * SCALE);
+
+    rightOut4_i = (unsigned int)(rightOut4D * SCALE);
+    leftOut4_i  = (unsigned int)( leftOut4D * SCALE);
+
+    #define SATURATE(in,sat) if ((in)>(sat)) in = sat; if ((in)<(-sat)) in = -sat;              
+
+    SATURATE(rightOut1_i,0x007FFFFF);
+    SATURATE( leftOut1_i,0x007FFFFF);
+
+    DSPController_tick();
+    // processBlock(0,0);
+    process();
 
 }
