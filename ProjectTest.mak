@@ -38,7 +38,7 @@ ifeq ($(MAKECMDGOALS),ProjectTest_Debug)
 
 ProjectTest_Debug : ./Debug/ProjectTest.dxe 
 
-Debug/DSP.doj :DSP.c GLUE.h tt.h $(VDSP)/213xx/include/cdef21364.h $(VDSP)/213xx/include/Cdef21363.h $(VDSP)/213xx/include/def21364.h $(VDSP)/213xx/include/def21363.h $(VDSP)/213xx/include/signal.h DSPController.h $(VDSP)/213xx/include/stdio.h $(VDSP)/213xx/include/stdio_21xxx.h $(VDSP)/213xx/include/stdarg.h $(VDSP)/213xx/include/string.h $(VDSP)/213xx/include/SRU21364.h $(VDSP)/213xx/include/sru21363.h 
+./Debug/DSP.doj :DSP.c GLUE.h tt.h $(VDSP)/213xx/include/cdef21364.h $(VDSP)/213xx/include/Cdef21363.h $(VDSP)/213xx/include/def21364.h $(VDSP)/213xx/include/def21363.h $(VDSP)/213xx/include/signal.h DSPController.h $(VDSP)/213xx/include/stdio.h $(VDSP)/213xx/include/stdio_21xxx.h $(VDSP)/213xx/include/stdarg.h $(VDSP)/213xx/include/string.h $(VDSP)/213xx/include/SRU21364.h $(VDSP)/213xx/include/sru21363.h 
 	@echo ".\DSP.c"
 	$(VDSP)/cc21k.exe -c .\DSP.c -file-attr ProjectName=ProjectTest -g -structs-do-not-overlap -no-multiline -double-size-32 -warn-protos -proc ADSP-21364 -o .\Debug\DSP.doj -MM
 
@@ -62,7 +62,7 @@ Debug/initSPORT.doj :initSPORT.c tt.h $(VDSP)/213xx/include/cdef21364.h $(VDSP)/
 	@echo ".\initSPORT.c"
 	$(VDSP)/cc21k.exe -c .\initSPORT.c -file-attr ProjectName=ProjectTest -g -structs-do-not-overlap -no-multiline -double-size-32 -warn-protos -proc ADSP-21364 -o .\Debug\initSPORT.doj -MM
 
-Debug/INTERFACE.doj :INTERFACE.c GLUE.h tt.h $(VDSP)/213xx/include/cdef21364.h $(VDSP)/213xx/include/Cdef21363.h $(VDSP)/213xx/include/def21364.h $(VDSP)/213xx/include/def21363.h $(VDSP)/213xx/include/signal.h DSPController.h $(VDSP)/213xx/include/stdio.h $(VDSP)/213xx/include/stdio_21xxx.h $(VDSP)/213xx/include/stdarg.h $(VDSP)/213xx/include/string.h $(VDSP)/213xx/include/SRU21364.h $(VDSP)/213xx/include/sru21363.h 
+./Debug/INTERFACE.doj :INTERFACE.c GLUE.h tt.h $(VDSP)/213xx/include/cdef21364.h $(VDSP)/213xx/include/Cdef21363.h $(VDSP)/213xx/include/def21364.h $(VDSP)/213xx/include/def21363.h $(VDSP)/213xx/include/signal.h DSPController.h $(VDSP)/213xx/include/stdio.h $(VDSP)/213xx/include/stdio_21xxx.h $(VDSP)/213xx/include/stdarg.h $(VDSP)/213xx/include/string.h $(VDSP)/213xx/include/SRU21364.h $(VDSP)/213xx/include/sru21363.h 
 	@echo ".\INTERFACE.c"
 	$(VDSP)/cc21k.exe -c .\INTERFACE.c -file-attr ProjectName=ProjectTest -g -structs-do-not-overlap -no-multiline -double-size-32 -warn-protos -proc ADSP-21364 -o .\Debug\INTERFACE.doj -MM
 
@@ -74,7 +74,7 @@ Debug/main.doj :main.c tt.h $(VDSP)/213xx/include/cdef21364.h $(VDSP)/213xx/incl
 	@echo ".\main.c"
 	$(VDSP)/cc21k.exe -c .\main.c -file-attr ProjectName=ProjectTest -g -structs-do-not-overlap -no-multiline -double-size-32 -warn-protos -proc ADSP-21364 -o .\Debug\main.doj -MM
 
-Debug/SPORTisr.doj :SPORTisr.c tt.h $(VDSP)/213xx/include/cdef21364.h $(VDSP)/213xx/include/Cdef21363.h $(VDSP)/213xx/include/def21364.h $(VDSP)/213xx/include/def21363.h $(VDSP)/213xx/include/signal.h $(VDSP)/213xx/include/stdio.h $(VDSP)/213xx/include/stdio_21xxx.h DSPController.h $(VDSP)/213xx/include/stdarg.h $(VDSP)/213xx/include/string.h $(VDSP)/213xx/include/SRU21364.h $(VDSP)/213xx/include/sru21363.h 
+./Debug/SPORTisr.doj :SPORTisr.c tt.h $(VDSP)/213xx/include/cdef21364.h $(VDSP)/213xx/include/Cdef21363.h $(VDSP)/213xx/include/def21364.h $(VDSP)/213xx/include/def21363.h $(VDSP)/213xx/include/signal.h $(VDSP)/213xx/include/stdio.h $(VDSP)/213xx/include/stdio_21xxx.h DSPController.h $(VDSP)/213xx/include/stdarg.h $(VDSP)/213xx/include/string.h $(VDSP)/213xx/include/SRU21364.h $(VDSP)/213xx/include/sru21363.h 
 	@echo ".\SPORTisr.c"
 	$(VDSP)/cc21k.exe -c .\SPORTisr.c -file-attr ProjectName=ProjectTest -g -structs-do-not-overlap -no-multiline -double-size-32 -warn-protos -proc ADSP-21364 -o .\Debug\SPORTisr.doj -MM
 
@@ -87,16 +87,16 @@ endif
 ifeq ($(MAKECMDGOALS),ProjectTest_Debug_clean)
 
 ProjectTest_Debug_clean:
-	-$(RM) "Debug\DSP.doj"
+	-$(RM) ".\Debug\DSP.doj"
 	-$(RM) "Debug\DSPController.doj"
 	-$(RM) "Debug\init1835viaSPI.doj"
 	-$(RM) "Debug\initDAI.doj"
 	-$(RM) "Debug\initPLL.doj"
 	-$(RM) "Debug\initSPORT.doj"
-	-$(RM) "Debug\INTERFACE.doj"
+	-$(RM) ".\Debug\INTERFACE.doj"
 	-$(RM) "Debug\IRQprocess.doj"
 	-$(RM) "Debug\main.doj"
-	-$(RM) "Debug\SPORTisr.doj"
+	-$(RM) ".\Debug\SPORTisr.doj"
 	-$(RM) ".\Debug\ProjectTest.dxe"
 	-$(RM) ".\Debug\*.ipa"
 	-$(RM) ".\Debug\*.opa"
