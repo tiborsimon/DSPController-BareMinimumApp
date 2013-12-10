@@ -1,12 +1,19 @@
-///////////////////////////////////////////////////////////////////////////////////////
-//NAME:     main.c (Block-based Talkthrough)
-//DATE:     7/15/04
-//PURPOSE:  Talkthrough framework for sending and receiving samples to the AD1835.
-//
-//USAGE:    This file contains the main routine calls functions to set up the talkthrough
-//          routine.
-//
-////////////////////////////////////////////////////////////////////////////////////////
+//========================================================================//
+//                   B A R E   M I N I M U M   A P P                      //
+//========================================================================//
+//                                                                        //
+//  This project contains a basic echo application with volume control.   //
+//  The project shows how to use the DSPController API.                   //
+//                                                                        //
+//------------------------------------------------------------------------//
+//                                                                        //
+//  Created by Tibor Simon <tiborsimon90@gmail.com>                       //
+//  2013.12.10.                                                           //
+//                                                                        //
+//  BME VIK MIT DSP Laboratory                                            //
+//                                                                        //
+//========================================================================//
+
 #include "tt.h"
 
 void SetupIRQ12(void) ;
