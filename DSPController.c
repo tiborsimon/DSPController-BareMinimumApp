@@ -18,7 +18,12 @@
 //  C O R E   V A R I A B L E S
 //========================================================================
 // settings variables
-volatile int 		dspcontroller_tick_threshold = DSPC_TICK_THRESHOLD_48;
+volatile int 				dspcontroller_tick_threshold = DSPC_TICK_THRESHOLD_48;
+
+volatile int 				dspcontroller_led_counter_max = DSPC_LED_COUNTER_MAX_48;
+volatile int 				dspcontroller_lcd_counter_max = DSPC_LCD_COUNTER_MAX_48;
+volatile int 				dspcontroller_dip_counter_max = DSPC_DIP_COUNTER_MAX_48;
+
 volatile char 				dspcontroller_encoder_velocity_enabled = 1;
 
 // state machine variables
@@ -58,6 +63,8 @@ volatile unsigned char	    dspcontroller_lcd_bottom_is_waiting;
 volatile unsigned char      dspcontroller_lcd_bottom_counter;
 volatile unsigned char      dspcontroller_lcd_bottom_cycle_counter;
 volatile short          	dspcontroller_lcd_bottom_sum;
+
+
 
  char		dspcontroller_lcd_top[16];
  char		dspcontroller_lcd_bottom[16];
@@ -117,6 +124,11 @@ void dspcontroller_spi_init() {
 void DSPController_init_default() {
     
     dspcontroller_tick_threshold = DSPC_TICK_THRESHOLD_48;
+    
+    dspcontroller_led_counter_max = DSPC_LED_COUNTER_MAX_48;
+	dspcontroller_lcd_counter_max = DSPC_LCD_COUNTER_MAX_48;
+	dspcontroller_dip_counter_max = DSPC_DIP_COUNTER_MAX_48;
+
     dspcontroller_encoder_velocity_enabled = 1;
     
     dspcontroller_init();
@@ -126,8 +138,17 @@ void DSPController_init(int code) {
     
     if((code & 0x01) != 0) {
         dspcontroller_tick_threshold = DSPC_TICK_THRESHOLD_48;
+        
+        dspcontroller_led_counter_max = DSPC_LED_COUNTER_MAX_48;
+		dspcontroller_lcd_counter_max = DSPC_LCD_COUNTER_MAX_48;
+		dspcontroller_dip_counter_max = DSPC_DIP_COUNTER_MAX_48;
+		
     } else {
         dspcontroller_tick_threshold = DSPC_TICK_THRESHOLD_96;
+        
+        dspcontroller_led_counter_max = DSPC_LED_COUNTER_MAX_96;
+		dspcontroller_lcd_counter_max = DSPC_LCD_COUNTER_MAX_96;
+		dspcontroller_dip_counter_max = DSPC_DIP_COUNTER_MAX_96;
     }
     
     if((code & 0x02) != 0) {
@@ -174,6 +195,7 @@ void dspcontroller_init() {
     dspcontroller_lcd_bottom_counter = 0;
     dspcontroller_lcd_bottom_sum = 0;
 
+    
     // dip handling variables
     dspcontroller_dip = 0;
     dspcontroller_dip_counter = 0;
@@ -228,7 +250,7 @@ void DSPController_tick() {
             if (dspcontroller_leds_are_waiting) {
                 if (dspcontroller_led_counter == 0) {
                     dspcontroller_leds_are_waiting = 0;
-                    dspcontroller_led_counter = DSPC_LED_COUNTER_MAX;
+                    dspcontroller_led_counter = dspcontroller_led_counter_max;
                     dspcontroller_spi_send_data(DSCP_MESSAGE_GET_WITH_LED);
                     dspcontroller_spi_state = DSPC_STATE_SPI_LED_INIT_SENT;
                 }
@@ -236,7 +258,7 @@ void DSPController_tick() {
             } else if (dspcontroller_lcd_top_is_waiting) {
                 if (dspcontroller_lcd_top_counter == 0) {
                     dspcontroller_lcd_top_is_waiting = 0;
-                    dspcontroller_lcd_top_counter = DSPC_LCD_COUNTER_MAX;
+                    dspcontroller_lcd_top_counter = dspcontroller_lcd_counter_max;
                     dspcontroller_spi_send_data(DSCP_MESSAGE_GET_WITH_LCD_TOP);
                     dspcontroller_spi_state = DSPC_STATE_SPI_LCD_TOP_INIT_SENT;
                 }
@@ -244,13 +266,13 @@ void DSPController_tick() {
             } else if (dspcontroller_lcd_bottom_is_waiting) {
                 if (dspcontroller_lcd_bottom_counter == 0) {
                     dspcontroller_lcd_bottom_is_waiting = 0;
-                    dspcontroller_lcd_bottom_counter = DSPC_LCD_COUNTER_MAX;
+                    dspcontroller_lcd_bottom_counter = dspcontroller_lcd_counter_max;
                     dspcontroller_spi_send_data(DSCP_MESSAGE_GET_WITH_LCD_BOTTOM);
                     dspcontroller_spi_state = DSPC_STATE_SPI_LCD_BOTTOM_INIT_SENT;
                 }
 
             } else if (dspcontroller_dip_counter == 0) {
-                dspcontroller_dip_counter = DSPC_DIP_COUNTER_MAX;
+                dspcontroller_dip_counter = dspcontroller_dip_counter_max;
                 dspcontroller_spi_send_data(DSCP_MESSAGE_GET_DIP_STATUS);
                 dspcontroller_spi_state = DSPC_STATE_SPI_DIP_INIT_SENT;
 
@@ -833,21 +855,25 @@ void dspcontroller_lcd_handler(unsigned char line, const char* format, va_list a
         limit_buff[i] = i<limitLength ? input_buff[i] : ' ';
         sum += limit_buff[i];
     }
-
+	
+    
     // check if its new or not
     if (line == 0) {
         if (sum == dspcontroller_lcd_top_sum) {
             return;
+            
         } else {
             dspcontroller_lcd_top_sum = sum;
         }
     } else {
         if (sum == dspcontroller_lcd_bottom_sum) {
             return;
+            
         } else {
             dspcontroller_lcd_bottom_sum = sum;
         }
     }
+    
     
     
     if (line == 0) {

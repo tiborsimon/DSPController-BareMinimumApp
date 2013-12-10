@@ -49,12 +49,17 @@ typedef signed short	Encoder;
 //========================================================================
 //  V A R I A B L E   P A R A M E T E R S
 //========================================================================
-#define DSPC_TICK_THRESHOLD_48                  20   /* @48kHz */
-#define DSPC_TICK_THRESHOLD_96                  40   /* @96kHz */
+#define DSPC_TICK_THRESHOLD_48                  26   /* @48kHz */
+#define DSPC_TICK_THRESHOLD_96                  52   /* @96kHz */
 
-#define DSPC_LED_COUNTER_MAX                    4
-#define DSPC_LCD_COUNTER_MAX                    30
-#define DSPC_DIP_COUNTER_MAX                    20
+#define DSPC_LED_COUNTER_MAX_48                 4
+#define DSPC_LCD_COUNTER_MAX_48                 100
+#define DSPC_DIP_COUNTER_MAX_48                 20
+
+#define DSPC_LED_COUNTER_MAX_96                 10
+#define DSPC_LCD_COUNTER_MAX_96                 200
+#define DSPC_DIP_COUNTER_MAX_96                 50
+
 
 #define DSPC_EVENT_BUFFER_SIZE                  32
 
@@ -63,6 +68,8 @@ typedef signed short	Encoder;
 
 #define DSPC_ENCODER_VELOCITY_THRESHOLD			300
 #define DSPC_ENCODER_VELOCITY_MULTIPLIER		3
+
+#define DSPC_LCD_REFRESH_RATE					200
 
 
 //========================================================================
