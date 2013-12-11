@@ -66,16 +66,6 @@ void initInterface(void) {
 
 void updateInterface(void) {
     
-    Event e = DSPController_get_event();
-    
-    if (e == DSPC_EVENT_A2_SHORT) {
-        DSPController_lcd_top("[Effect]  Demo  ");
-    }
-    
-    if (e == DSPC_EVENT_A4_SHORT) {
-        DSPController_lcd_top(" Effect  [Demo] ");
-    }
-    
     int temp_volume = DSPController_get_encoder(3);
     
     if(temp_volume != 0) {
@@ -87,7 +77,7 @@ void updateInterface(void) {
         GLUE_volume = (float)(volume)/(float)MAX_VOLUME; 
     }
     
-    //DSPController_lcd_top("Bare minimum app");
+    DSPController_lcd_top("Bare minimum app");
     DSPController_lcd_bottom("Volume     [%02d]",volume);
 
 }
