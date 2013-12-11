@@ -57,19 +57,22 @@ volatile unsigned char      dspcontroller_leds_are_waiting;
 volatile unsigned char	    dspcontroller_lcd_top_is_waiting;
 volatile unsigned char      dspcontroller_lcd_top_counter;
 volatile unsigned char      dspcontroller_lcd_top_cycle_counter;
-volatile short          	dspcontroller_lcd_top_sum;
+
 
 volatile unsigned char	    dspcontroller_lcd_bottom_is_waiting;
 volatile unsigned char      dspcontroller_lcd_bottom_counter;
 volatile unsigned char      dspcontroller_lcd_bottom_cycle_counter;
-volatile short          	dspcontroller_lcd_bottom_sum;
 
 
 
- char		dspcontroller_lcd_top[16];
- char		dspcontroller_lcd_bottom[16];
- char      dspcontroller_lcd_top_out[16];
- char      dspcontroller_lcd_bottom_out[16];
+
+char						dspcontroller_lcd_top[16];
+char						dspcontroller_lcd_bottom[16];
+char      					dspcontroller_lcd_top_out[16];
+char      					dspcontroller_lcd_bottom_out[16];
+
+char						dspcontroller_lcd_top_check[16];
+char						dspcontroller_lcd_bottom_check[16];
 
 // dip handling variables
 volatile unsigned char      dspcontroller_dip;
@@ -189,11 +192,11 @@ void dspcontroller_init() {
     // lcd handling variables
     dspcontroller_lcd_top_is_waiting = 0;
     dspcontroller_lcd_top_is_waiting = 0;
-    dspcontroller_lcd_top_sum = 0;
+    //dspcontroller_lcd_top_sum = 0;
 
     dspcontroller_lcd_bottom_counter = 0;
     dspcontroller_lcd_bottom_counter = 0;
-    dspcontroller_lcd_bottom_sum = 0;
+    //dspcontroller_lcd_bottom_sum = 0;
 
     
     // dip handling variables
@@ -836,7 +839,6 @@ void dspcontroller_lcd_handler(unsigned char line, const char* format, va_list a
     char limit_buff[16];
     unsigned char inputLength;
     unsigned char limitLength;
-    short sum;
     int i;
 
     if (dspcontroller_spi_state < DSPC_STATE_SPI_IDLE) {
@@ -850,28 +852,35 @@ void dspcontroller_lcd_handler(unsigned char line, const char* format, va_list a
     if (l < 16) limitLength = l;
     else limitLength = 16;
     
-    sum = 0;
+    
     for(i=0;i<16;i++) {
         limit_buff[i] = i<limitLength ? input_buff[i] : ' ';
-        sum += limit_buff[i];
     }
 	
     
     // check if its new or not
     if (line == 0) {
-        if (sum == dspcontroller_lcd_top_sum) {
-            return;
-            
-        } else {
-            dspcontroller_lcd_top_sum = sum;
-        }
+        char equal = 1;
+        for(i=0;i<16;i++) {
+            if (limit_buff[i] != dspcontroller_lcd_top_check[i]) {
+                equal = 0;
+            }
+            dspcontroller_lcd_top_check[i] = limit_buff[i];
+    	}
+    	if(equal == 1) {
+    		return;   
+    	}
     } else {
-        if (sum == dspcontroller_lcd_bottom_sum) {
-            return;
-            
-        } else {
-            dspcontroller_lcd_bottom_sum = sum;
-        }
+        char equal = 1;
+        for(i=0;i<16;i++) {
+            if (limit_buff[i] != dspcontroller_lcd_bottom_check[i]) {
+                equal = 0;
+            }
+            dspcontroller_lcd_bottom_check[i] = limit_buff[i];
+    	}
+    	if(equal == 1) {
+    		return;   
+    	}
     }
     
     
