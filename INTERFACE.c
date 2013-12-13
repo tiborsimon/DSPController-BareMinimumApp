@@ -21,7 +21,7 @@
 
 // Defined symbols
 #define DEFAULT_GLUE_VOLUME     0.5f
-#define MAX_VOLUME				60
+#define MAX_VOLUME              60
 
 // Local variables
 int volume = 30;
