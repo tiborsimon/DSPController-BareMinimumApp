@@ -21,7 +21,7 @@ The project contains a basic volume control application, that uses encoder 3 to 
 
 ---
 
-### Check out the whole boudle
+### Check out the whole boundle
 
 [DSPController Bundle](https://github.com/tiborsimon/DSPController-Bundle)
 
