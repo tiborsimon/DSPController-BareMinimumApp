@@ -19,4 +19,10 @@ There are three files you should care about:
 
 The project contains a basic volume control application, that uses encoder 3 to adjust the volume of the signal that flows through the DSP.
 
+---
+
+### Check out the whole boudle
+
+[DSPController Bundle](https://github.com/tiborsimon/DSPController-Bundle)
+
 
